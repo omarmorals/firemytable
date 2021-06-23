@@ -31,17 +31,19 @@
       cluster: 'us2',
       encrypted: true
     });
-
-    // subscribe to `todo` public channel, on which we'd be broadcasting events
-    const channel = pusher.subscribe('todo');
-
     channel.bind('pusher:subscription_succeeded', function(members) {
     // alert('successfully subscribed!');
  });
 
- channel.bind("App\\Events\\NewMessage", function(data) {
+ channel.bind("App\\Events\\UserHasRegistered", function(data) {
      console.log(data);
  });
+    // subscribe to `todo` public channel, on which we'd be broadcasting events
+    const channel = pusher.subscribe('todo');
+
+    channel.bind('pusher:subscription_succeeded', function() {
+    alert('successfully subscribed!');
+});
 
     // listen for item-added events, and update todo list once event triggered
     channel.bind('item-added', data => {

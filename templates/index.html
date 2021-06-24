@@ -2,7 +2,7 @@
 <html>
 <head>
   <!-- link to the ToDo MVC index.css file -->
-  <link rel="stylesheet" href="/static/todomvc-app-css/index.css">
+  
   <title>Realtime ToDo List</title>
 </head>
 
@@ -31,6 +31,9 @@
       cluster: 'us2',
       encrypted: true
     });
+
+    // subscribe to `todo` public channel, on which we'd be broadcasting events
+    const channel = pusher.subscribe('todo');
     channel.bind('pusher:subscription_succeeded', function(members) {
     // alert('successfully subscribed!');
  });
@@ -38,8 +41,6 @@
  channel.bind("App\\Events\\UserHasRegistered", function(data) {
      console.log(data);
  });
-    // subscribe to `todo` public channel, on which we'd be broadcasting events
-    const channel = pusher.subscribe('todo');
 
     channel.bind('pusher:subscription_succeeded', function() {
     alert('successfully subscribed!');
